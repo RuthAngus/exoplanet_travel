@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index(name=None):
-    name = data
+    name = data()
     print name
     return render_template('index.html', name=name)
 
@@ -22,6 +22,7 @@ def data():
     K = data[7]
 
     print name[0]
+
     return name[0]
 
 #     return name[0]
@@ -33,4 +34,6 @@ def data():
 #     return render_template('hello.html', name=name)
 
 if __name__ == '__main__':
+#     data()
+#     raw_input('enter')
     app.run(debug=True)
