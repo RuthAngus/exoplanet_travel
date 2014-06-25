@@ -24,8 +24,24 @@ def p_text(name):
     l = n == name
     p = float(periods[l][0])
     print p
-    if p < 5:
-        return "Better pack your spf 50 - this planet gets hot!"
+    if p < 20:
+        return "Better pack some high spf!"
+    elif 20 < p < 100:
+        return "Enjoy those balmy summer nights."
+    else:
+        return "Might want to pack an extra jumper."
+
+def d_text(name):
+    data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", dtype=str, delimiter=',', skip_header=2).T
+    n = data[0]
+
+    # find namez
+    l = n == name
+    m = float(data[1][l][0])
+    if m < .3:
+        return "If things are getting a little 'heavy' back home - you'll feel lighter than air on this low-g planet."
+    elif .3<m<1.:
+        return ""
     else:
         return "Might want to pack an extra jumper."
 
