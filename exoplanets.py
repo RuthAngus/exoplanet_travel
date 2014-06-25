@@ -12,7 +12,9 @@ def index(name=None, text=None):
     print name
     text1 = p_text(name)
     text2 = d_text(name)
-    return render_template('index.html', name=name, p_text=text1, d_text=text2, cut_name=remove_space(name))
+    text3 = price(name)
+    return render_template('index.html', name=name, p_text=text1, d_text=text2, cut_name=remove_space(name), \
+            dist = text3)
 
 @app.route('/image/<name>')
 def image(name):
@@ -106,6 +108,28 @@ def nm():
     name = data[0]
     return name[r]
 
+def price(name):
+    distances = (500, 300, 100, 600, 1000, 10)
+    # 12 litres per km
+    # 2.82 dollars per gallon
+    # 4.54 litres per gallon
+    # .62 dollars per litre
+    # 7.44 dollars per km
+    # 4.3896 GBP per km
+    # 1.317e+17 gbp per parsec
+    r = np.random.randint(0, len(distances))
+    cost = 1.317e+17 * distances[r]
+#     stringy = str(cost)
+#     z = str[-2:]
+    r = np.random.randint(0,3)
+    if r == 0:
+        return "Only %s GBP!*" %cost
+    elif r == 1:
+        return "Special offer! %s GBP!*" %cost
+    elif r == 2:
+        return "%s GBP TODAY ONLY*" %cost
+    elif r == 3:
+        return "Only 2 seats left at %s GBP*" %cost
 
 if __name__ == '__main__':
 #     name = nm()
