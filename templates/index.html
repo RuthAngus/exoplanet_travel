@@ -20,8 +20,20 @@ rel='stylesheet' type='text/css'>
   <h1>Hello World!</h1>
 {% endif %}
 
+<title>Hello from Flask</title>
+{% if text %}
+  <h4> {{ text }}</h4>
+{% else %}
+  <h1>Hello World!</h1>
+{% endif %}
+
 <svg height="100" width="100">
-  <circle cx="50" cy="50" r="40" stroke-width="3" fill="yellow" />
+  <circle cx="60" cy="50" r="40" stroke-width="3" fill="yellow" />
+  Sorry, your browser does not support inline SVG.
+</svg>
+
+<svg height="100" width="100">
+  <circle cx="10" cy="50" r="10" stroke-width="1" fill="black" />
   Sorry, your browser does not support inline SVG.
 </svg>
 
