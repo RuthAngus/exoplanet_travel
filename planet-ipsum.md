@@ -14,11 +14,17 @@
 - NAME is a cool place to be - too cool in fact. At -XXºC you will need to take that extra layer for sure.
 
 ### Orbital Period/Eccentricity
+- With an orbital period of just XX days  - you can literallty while away years on this planet.
 - 
 
 ### Distance
 - Get away from it all - really, really far away in fact because NAME is XX light years from Earth.
 - Say goodbye to rat race. Permanently. By the time you return from NAME, you, your children and everything you’ve ever loved will be long dead - because the journey would take XX,XXX years with even the fastest technology around.
-- It’s quite a long journey to NAME, so take a crossword and fill up that iPod. But seriously its going to take thousands of years.
-- At XXX light years the best way to travel to NAME will be to go close to the speed of light, so look out for the new ape civilisation upon your return.
+- It’s quite a long journey to NAME, so take a crossword and fill up that iPod. But seriously: it's going to take thousands of years.
+- At XXX light years the best way to travel to NAME will be to go at close to the speed of light, so look out for the new ape civilisation upon your return.
 - At XXX light years, the best way to get to NAME will be on a generational starship - so check out our family deals.
+- With a distance of XXX light years, no radio or television ignals have ever reached NAME. So no Game of Thrones spoilers.
+
+### Other
+- It's paradise on NAME - so long as you consider acid rain and boiling oceans paradise
+- For all we know, this planet has an exomoon with a sexy race of tall, blue aliens living on in. Just sayin'.
