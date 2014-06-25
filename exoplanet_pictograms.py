@@ -7,6 +7,7 @@ import matplotlib.image as mpimg
 import StringIO
 import numpy as np
 import csv
+from flask import make_response
 
 # Each exoplanet has a transit depth, which is (radius of planet/ radius of star )^2
 # eg depth = 0.01
@@ -37,6 +38,7 @@ def rgb_from_jhk(J, H, K):
     return color
 
 def plot_data(name, semimajor, planet_radius, star_radius, star_color):
+
     center = np.array([0.5,0.5])
     angle = np.random.uniform(0, 2*np.pi)
     planet_center = center+semimajor*np.array([np.cos(angle), np.sin(angle)])
@@ -55,7 +57,13 @@ def plot_data(name, semimajor, planet_radius, star_radius, star_color):
     axis.axis('off')
 
     canvas = FigureCanvas(fig)
-    fig.savefig("images/"+name.replace(" ", "_"))
+#     fig.savefig("images/"+name.replace(" ", "_"))
+    output = StringIO.StringIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
+#     return output.getvalue()
 
 def plot_exoplanet(planet):
     print planet['NAME']
@@ -76,8 +84,7 @@ def plot_exoplanet(planet):
     H = np.exp(float(planet["H"]))
     K = np.exp(float(planet["KS"]))
     color = rgb_from_jhk(J, H, K)
-    plot_data(name, semimajor, planet_radius, star_radius*4, color)
-
+    return plot_data(name, semimajor, planet_radius, star_radius*4, color)
 
 
 
@@ -88,6 +95,17 @@ def make_plot():
     response.mimetype = 'image/png'
     return response
 
+def plot_name(name):
+   for p in planets:
+       print remove_space(p['NAME']), name, 'check'
+       if remove_space(p['NAME']) == name:
+           return plot_exoplanet(p)
+   return 'oops'
+
+def remove_space(name):
+    return name.replace(' ', '').replace('-','').lower()
+
+planets=load_data()
 if __name__ == '__main__':
     planets=load_data()
     for p in planets[5:]:

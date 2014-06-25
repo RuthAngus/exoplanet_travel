@@ -1,7 +1,9 @@
+from exoplanet_pictograms import plot_exoplanet, plot_name, remove_space
 from flask import Flask, url_for
 from flask import render_template
 import numpy as np
 import kplr
+import csv
 app = Flask(__name__)
 
 @app.route('/')
@@ -10,11 +12,15 @@ def index(name=None, text=None):
     print name
     text1 = p_text(name)
     text2 = d_text(name)
-    return render_template('index.html', name=name, p_text=text1, d_text=text2)
+    return render_template('index.html', name=name, p_text=text1, d_text=text2, cut_name=remove_space(name))
+
+@app.route('/image/<name>')
+def image(name):
+    return plot_name(name)
 
 def nm():
-    data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", \
-            dtype=str, delimiter=',', skip_header=2).T
+    data = np.genfromtxt("/users/angusr/python/exoplanet_travel/transit_data.txt", \
+            dtype=str, delimiter=',', skip_header=2).t
     r = np.random.randint(0, len(data[0][0]))
     name = data[0]
     return name[r]
@@ -92,6 +98,13 @@ def d_text(name):
         else:
             return "This is the perfect place to lose a few pounds. In fact you'll only weigh 0.1 Kg due to its \
                     low gravity"
+
+def nm():
+    data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", \
+            dtype=str, delimiter=',', skip_header=2).T
+    r = np.random.randint(0, len(data[0][0]))
+    name = data[0]
+    return name[r]
 
 
 if __name__ == '__main__':
