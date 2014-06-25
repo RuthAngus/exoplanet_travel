@@ -5,38 +5,29 @@ app = Flask(__name__)
 
 @app.route('/')
 def index(name=None, text=None):
-    name = data()
+    name = nm()
     print name
-    text = 'This planet is hot!'
+    text = p_text(name)
     return render_template('index.html', name=name, text=text)
 
-def data():
-    data = np.genfromtxt("/Users/angusr/Documents/websites/exoplanets/data.txt", dtype=str, delimiter=',', skip_header=2).T
-
+def nm():
+    data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", dtype=str, delimiter=',', skip_header=2).T
     name = data[0]
-    msini = data[1]
-    a = data[2]
-    period = data[3]
-    ecc = data[4]
-    omega = data[5]
-    T0 = data[6]
-    K = data[7]
-
     return name[0]
 
-def text():
-    data = np.genfromtxt("/Users/angusr/Documents/websites/exoplanets/data.txt", dtype=str, delimiter=',', skip_header=2).T
+def p_text(name):
+    data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", dtype=str, delimiter=',', skip_header=2).T
+    n = data[0]
+    periods = data[3]
 
-    name = data[0]
-    msini = data[1]
-    a = data[2]
-    period = data[3]
-    ecc = data[4]
-    omega = data[5]
-    T0 = data[6]
-    K = data[7]
-
-    return text
+    # find namez
+    l = n == name
+    p = float(periods[l][0])
+    print p
+    if p < 5:
+        return "Better pack your spf 50 - this planet gets hot!"
+    else:
+        return "Might want to pack an extra jumper."
 
 if __name__ == '__main__':
     app.run(debug=True)
