@@ -8,6 +8,7 @@ import StringIO
 import numpy as np
 import csv
 from flask import make_response
+import os
 
 # Each exoplanet has a transit depth, which is (radius of planet/ radius of star )^2
 # eg depth = 0.01
@@ -66,6 +67,82 @@ def plot_data(name, semimajor, planet_radius, star_radius, star_color):
     return response
 #     return output.getvalue()
 
+def make_animation_frames(name, semimajor, planet_radius, star_radius, star_color, orbital_period):
+    #not affiliated with Animal Planet.
+
+    center = np.array([0.5,0.5])
+    angle = np.random.uniform(0, 2*np.pi)
+    planet_center = center+semimajor*np.array([1,0])
+
+    fig = Figure(figsize=(6,6))
+    axis = fig.add_subplot(1, 1, 1)
+
+    star = Circle(center, radius=star_radius, color=star_color)
+    orbit = Circle(center, radius=semimajor, fill=False, linestyle='dashed', color='gray')
+    planet = Circle(planet_center, radius=planet_radius, color='green')
+
+    axis.add_patch(star)
+    axis.add_patch(orbit)
+    axis.add_patch(planet)
+    axis.axis('off')
+
+    filenames = []
+    #set 50 days to be 5 seconds
+    orbital_period = orbital_period/100.*5.
+    #let's put the period in seconds
+    fps = 100.
+    print 'orbital period = ', orbital_period
+    nframe = int(orbital_period*fps)
+
+
+    #round off 
+    orbital_period = nframe/fps
+    omega = 2*np.pi/orbital_period
+    angles = np.linspace(0, 2*np.pi, nframe)
+    if not os.path.exists("frames"):
+        os.makekdir("frames")
+    if not os.path.exists("gifs"):
+        os.makekdir("gifss")
+    print angles
+    print "nframe = ", nframe
+    for i,theta in enumerate(angles):
+        canvas = FigureCanvas(fig)
+        planet.center = center+semimajor*np.array([np.cos(theta),np.sin(theta)])
+        filename = ("frames/%.4d_"%i)+remove_space(name)+'.png'
+        fig.savefig(filename)
+        filenames.append(filename)
+
+    #animate
+    gifname = "gifs/%s.gif" % remove_space(name)
+    frame_names = " ".join(filenames)
+    cmd = "convert -delay 1 %s %s" % (frame_names, gifname)
+    print cmd   
+    os.system(cmd)
+
+
+
+def animate_exoplanet(planet):
+    print planet['NAME']
+    semimajor = float(planet["A"])
+    try:
+        period = float(planet["PER"])
+    except ValueError:
+        period = 0.0
+    try:
+        eccentricity = float(planet["ECC"])
+    except ValueError:
+        eccentricity = 0.0
+    star_radius = float(planet["RSTAR"]) * RSUN_IN_AU
+    transit_depth = float(planet["DEPTH"])
+    planet_radius = star_radius * transit_depth**0.5
+    name = planet["NAME"]
+    J = np.exp(float(planet["J"]))
+    H = np.exp(float(planet["H"]))
+    K = np.exp(float(planet["KS"]))
+    color = rgb_from_jhk(J, H, K)
+    return make_animation_frames(name, semimajor, planet_radius, star_radius*4, color, period)
+
+
 def plot_exoplanet(planet):
     print planet['NAME']
     semimajor = float(planet["A"])
@@ -107,6 +184,9 @@ def remove_space(name):
     return name.replace(' ', '').replace('-','').lower()
 
 planets=load_data()
+
+
+
 if __name__ == '__main__':
     planets=load_data()
     for p in planets[5:]:
