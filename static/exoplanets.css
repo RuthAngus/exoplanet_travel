@@ -27,6 +27,13 @@ p {
 	line-height:140%
 }
 
+figure {
+	/* float: center; */
+	float: right;
+	margin-right: 360px;
+	display:inline;
+}
+
 p2 {
         text-align:left;
         font-family: 'Trykker', serif;

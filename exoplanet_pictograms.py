@@ -47,13 +47,14 @@ def plot_data(name, semimajor, planet_radius, star_radius, star_color):
     fig = Figure(figsize=(6,6))
     axis = fig.add_subplot(1, 1, 1)
     print star_color
-    star = Circle(center, radius=star_radius, color=star_color)
-    orbit = Circle(center, radius=semimajor, fill=False, linestyle='dashed', color='gray')
+    star = Circle(center, radius=star_radius*8, color=star_color)
+    orbit = Circle(center, radius=semimajor*8, fill=False, linestyle='dashed', color='gray')
     planet = Circle(planet_center, radius=planet_radius, color='green')
 
     axis.add_patch(star)
     axis.add_patch(orbit)
     axis.add_patch(planet)
+    fig.patch.set_visible(False)
     axis.axis('off')
 
     canvas = FigureCanvas(fig)

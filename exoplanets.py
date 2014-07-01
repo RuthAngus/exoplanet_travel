@@ -23,9 +23,15 @@ def image(name):
 def nm():
     data = np.genfromtxt("/users/angusr/python/exoplanet_travel/transit_data.txt", \
             dtype=str, delimiter=',', skip_header=2).t
+
+    # select Kepler planets only
     r = np.random.randint(0, len(data[0][0]))
     name = data[0]
+    while str(name)[0] != 'K':
+        r = np.random.randint(0, len(data[0][0]))
+        name = data[0]
     return name[r]
+
 
 def p_text(name):
     data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", \
@@ -68,11 +74,8 @@ def d_text(name):
     n = data[0]
     l = n == name
 
-    # find namez
-    print data[0][l][0], 'name'
+    name = data[0][l][0]
     mass = float(data[1][l][0])
-    print mass
-    print data[10][l]
     radius = 1.
     try:
         radius = float(data[10][l][0])
@@ -80,16 +83,16 @@ def d_text(name):
         pass
     print mass, radius
     d = mass/(4*radius)**3
-
     r = np.random.randint(0,1)
+
     # low g
     if d > .5:
         if r == 0:
             return "If things are getting a little 'heavy' back home, you'll feel lighter \
                     than air on this low-g planet"
         else:
-            return "One of the big pulls for this destination is its gravitational field. At... Gs \
-                    you'll come back feeling like Superman"
+            return "One of the big pulls for %s is its gravitational field. At... Gs \
+                    you'll come back feeling like Superman" %name
 
     # high g
     if d < .5:
@@ -104,7 +107,7 @@ def d_text(name):
 def nm():
     data = np.genfromtxt("/Users/angusr/Python/exoplanet_travel/transit_data.txt", \
             dtype=str, delimiter=',', skip_header=2).T
-    r = np.random.randint(0, len(data[0][0]))
+    r = np.random.randint(0,len(data[0][0]))
     name = data[0]
     return name[r]
 
